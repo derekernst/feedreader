@@ -40,14 +40,14 @@ $(function() {
 
             //click to show menu
             menuIcon.click();
-                // menu should be visible
-                expect($('body').hasClass('menu-hidden')).toBe(false);
-                $body = $('body');
+            // menu should be visible
+            expect($('body').hasClass('menu-hidden')).toBe(false);
+            $body = $('body');
 
             //click to hide menu
             menuIcon.click();
-                // menu should be hidden
-                expect($('body').hasClass('menu-hidden')).toBe(true);
+            // menu should be hidden
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
 
@@ -56,35 +56,35 @@ $(function() {
 
         // set callback funciton for when loadFeed() has completed
         beforeEach(function(done){ 
-            loadFeed(0,function() { ;
-                done();
-            });
+            loadFeed(0, done);
         });
 
         // test that there is an entry for the loaded feed
-        it('has an entry in the feed', function(done){
+        it('has an entry in the feed', function(){
             var entry = $('.feed .entry')[0];
             expect(entry).toBeDefined();
-            done();
         });
     });
 
     // new test suite for loading new feed upon menu selection (async)
     describe('New Feed Selection',function() {
-        var prevFeed = $('.feed').html();
+        var prevFeed;
 
-            // set callback funciton for when loadFeed() has completed
-            beforeEach(function(done) { 
-                loadFeed(1,function() {
-                    done();
-                });
+        // set callback funciton for when loadFeed() has completed
+        beforeEach(function(done) { 
+            loadFeed(0,function() {
+                prevFeed = $('.feed').html();
+                done();
             });
+        });
 
-            // check against the initial feed loaded (id = 0)
-            it('updated content', function(done) {
+        // load a new feed and check against prevFeed
+        it('updated content', function(done) {
+            loadFeed(1,function() {
                 expect($('.feed').html()).not.toEqual(prevFeed);
                 done();
             });
+        });
     });
 
 }()); 
