@@ -1,36 +1,14 @@
-/* feedreader.js
- *
- * This is the spec file that Jasmine will read and contains
- * all of the tests that will be run against your application.
- */
-
-/* We're placing all of our tests within the $() function,
- * since some of these tests may require DOM elements. We want
- * to ensure they don't run until the DOM is ready.
- */
 $(function() {
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
-    * feeds definitions, the allFeeds variable in our application.
-    */
+
     describe('RSS Feeds', function() {
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty. Experiment with this before you get started on
-         * the rest of this project. What happens when you change
-         * allFeeds in app.js to be an empty array and refresh the
-         * page?
-         */
+
+        // confirm that there are feeds to be loaded
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
+        // test that all feeds have a url property and the url is not empty
         it ('urls are defined', function() { 
             allFeeds.forEach(function (feed) { 
                 expect(feed.url).toBeDefined();
@@ -38,10 +16,7 @@ $(function() {
             });
         });
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+        // test that all feeds have a name property and the name is not empty
         it ('name is defined', function() { 
             allFeeds.forEach(function (feed) { 
                 expect(feed.name).toBeDefined();
@@ -51,22 +26,14 @@ $(function() {
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+    // new test suite for the menu 
     describe('The menu', function() { 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+        // test that the menu is hidden on load
         it('is hidden by default', function() { 
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+        // test that menu appears and disappears when menu icon is clicked 
         it('changes visbility when icon is clicked', function() { 
             var menuIcon = $('.menu-icon-link'),
                 $body = $('body');
@@ -83,20 +50,18 @@ $(function() {
                 expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
-    /* TODO: Write a new test suite named "Initial Entries" */
+
+    // new test suite for loading feeds (async)
     describe('Initial Entries', function() { 
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+
+        // set callback funciton for when loadFeed() has completed
         beforeEach(function(done){ 
             loadFeed(0,function() { ;
                 done();
             });
         });
 
+        // test that there is an entry for the loaded feed
         it('has an entry in the feed', function(done){
             var entry = $('.feed .entry')[0];
             expect(entry).toBeDefined();
@@ -104,19 +69,17 @@ $(function() {
         });
     });
 
-     // TODO: Write a new test suite named "New Feed Selection"
+    // new test suite for loading new feed upon menu selection (async)
     describe('New Feed Selection',function() {
         var prevFeed = $('.feed').html();
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous. */
 
-            //asychronous call for new feed to be loaded (id = 1)
+            // set callback funciton for when loadFeed() has completed
             beforeEach(function(done) { 
                 loadFeed(1,function() {
                     done();
                 });
             });
+
             // check against the initial feed loaded (id = 0)
             it('updated content', function(done) {
                 expect($('.feed').html()).not.toEqual(prevFeed);
